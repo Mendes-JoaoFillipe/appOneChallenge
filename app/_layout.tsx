@@ -39,7 +39,7 @@ export default function HomeScreen() {
       />
 
       <TouchableOpacity style={styles.button} onPress={saveInfo}>
-        <Text style={styles.buttonText}>Salvar</Text>
+        <Text style={styles.buttonText}>Logar</Text>
       </TouchableOpacity>
 
     
