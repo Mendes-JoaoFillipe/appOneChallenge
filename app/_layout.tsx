@@ -1,39 +1,65 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { StatusBar } from 'expo-status-bar';
-import { useEffect } from 'react';
-import 'react-native-reanimated';
+import React, { useState } from 'react';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 
-import { useColorScheme } from '@/hooks/useColorScheme';
+export default function HomeScreen() {
+  const [input, setInput] = useState('');
+  const [name, setName] = useState('');
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync();
-
-export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-  });
-
-  useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
+  function saveInfo() {
+    if (input === '') {
+      alert('Preencha o campo nome');
+      return;
     }
-  }, [loaded]);
-
-  if (!loaded) {
-    return null;
+    setName(input);
+    setInput('');
   }
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
+    <View style={styles.container}>
+      <TextInput
+        style={styles.input}
+        placeholder="Digite seu nome completo"
+        value={input}
+        onChangeText={text => setInput(text)}
+      />
+
+      <TouchableOpacity style={styles.button} onPress={saveInfo}>
+        <Text style={styles.buttonText}>Salvar</Text>
+      </TouchableOpacity>
+
+      <Text style={styles.result}>{name}</Text>
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    padding: 20,
+    backgroundColor: '#fff',
+  },
+  input: {
+    height: 50,
+    borderColor: '#aaa',
+    borderWidth: 1,
+    paddingHorizontal: 10,
+    marginBottom: 10,
+    borderRadius: 8,
+  },
+  button: {
+    backgroundColor: '#007bff',
+    padding: 15,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+  },
+  result: {
+    marginTop: 30,
+    fontSize: 24,
+    textAlign: 'center',
+  },
+});
