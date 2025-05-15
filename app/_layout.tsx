@@ -1,98 +1,79 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Keyboard } from 'react-native';
 
-export default function HomeScreen() {
-  const [input, setInput] = useState('');
-  const [password, setPassword] = useState('');
-  const [name, setName] = useState('');
+export default function IMCApp() {
+  const [peso, setPeso] = useState('');
+  const [altura, setAltura] = useState('');
+  const [resultado, setResultado] = useState('');
+  const [classificacao, setClassificacao] = useState('');
 
-  function saveInfo() {
-    if (input === '') {
-      alert('Preencha o campo nome');
+  function calcularIMC() {
+    const pesoNum = parseFloat(peso.replace(',', '.'));
+    const alturaNum = parseFloat(altura.replace(',', '.'));
+
+    if (isNaN(pesoNum) || isNaN(alturaNum) || pesoNum <= 0 || alturaNum <= 0) {
+      Alert.alert('Erro', 'Preencha os campos corretamente com valores válidos.');
       return;
     }
-    setName(input);
-    setInput('');
-    setPassword('');
+
+    const imc = pesoNum / (alturaNum * alturaNum);
+    let classificacao = '';
+
+    if (imc < 18.5) classificacao = 'Abaixo do peso';
+    else if (imc < 25) classificacao = 'Peso normal';
+    else if (imc < 30) classificacao = 'Sobrepeso';
+    else if (imc < 35) classificacao = 'Obesidade grau I';
+    else if (imc < 40) classificacao = 'Obesidade grau II';
+    else classificacao = 'Obesidade grau III';
+
+    setResultado(imc.toFixed(2));
+    setClassificacao(classificacao);
+    Keyboard.dismiss();
+  }
+
+  function limparCampos() {
+    setPeso('');
+    setAltura('');
+    setResultado('');
+    setClassificacao('');
   }
 
   return (
     <View style={styles.container}>
-      <Image
-        source={{ uri: 'https://i.pinimg.com/736x/b6/3d/ec/b63dec6d3c14176b805163971866f69d.jpg' }} 
-        style={styles.image}
+      <Text style={styles.title}>Calculador de IMC</Text>
+
+      <TextInput
+        style={styles.input}
+        placeholder="Peso (kg)"
+        keyboardType="numeric"
+        value={peso}
+        onChangeText={setPeso}
       />
 
       <TextInput
         style={styles.input}
-        placeholder="Digite seu nome completo"
-        value={input}
-        onChangeText={text => setInput(text)}
+        placeholder="Altura (m)"
+        keyboardType="numeric"
+        value={altura}
+        onChangeText={setAltura}
       />
 
-      <TextInput
-        style={styles.input}
-        placeholder="Digite sua senha"
-        value={password}
-        onChangeText={text => setPassword(text)}
-        secureTextEntry={true}
-      />
-
-      <TouchableOpacity style={styles.button} onPress={saveInfo}>
-        <Text style={styles.buttonText}>Logar</Text>
+      <TouchableOpacity style={styles.button} onPress={calcularIMC}>
+        <Text style={styles.buttonText}>Calcular IMC</Text>
       </TouchableOpacity>
 
-    
-<Text style={styles.forgotPassword}>Esqueci a senha</Text>
+      <TouchableOpacity style={styles.clearButton} onPress={limparCampos}>
+        <Text style={styles.clearButtonText}>Limpar</Text>
+      </TouchableOpacity>
 
-<Text style={styles.result}>{name}</Text>
+      {resultado !== '' && (
+        <View style={styles.resultArea}>
+          <Text style={styles.resultText}>Seu IMC: {resultado}</Text>
+          <Text style={styles.resultText}>Classificação: {classificacao}</Text>
+        </View>
+      )}
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    padding: 20,
-    backgroundColor: '#fff',
-  },
-  image: {
-    width: 120,
-    height: 120,
-    borderRadius: 50,
-    alignSelf: 'center',
-    marginBottom: 20,
-  },
-  input: {
-    height: 50,
-    borderColor: '#aaa',
-    borderWidth: 1,
-    paddingHorizontal: 10,
-    marginBottom: 10,
-    borderRadius: 8,
-  },
-  button: {
-    backgroundColor: '#007bff',
-    padding: 15,
-    borderRadius: 8,
-    alignItems: 'center',
-  },
-  buttonText: {
-    color: '#fff',
-    fontWeight: 'bold',
-  },
-  result: {
-    marginTop: 30,
-    fontSize: 24,
-    textAlign: 'center',
-  },
 
-  forgotPassword: {
-    marginTop: 10,
-    color: '#007bff',
-    textAlign: 'center',
-    textDecorationLine: 'underline',
-  },
-  
-});
