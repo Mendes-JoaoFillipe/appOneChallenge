@@ -76,4 +76,58 @@ export default function IMCApp() {
   );
 }
 
-
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+    justifyContent: 'center',
+    backgroundColor: '#F0F8FF',
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 30,
+    color: '#',
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: '#CCC',
+    backgroundColor: '#FFF',
+    padding: 12,
+    marginBottom: 15,
+    borderRadius: 8,
+  },
+  button: {
+    backgroundColor: '#2E8B57',
+    padding: 15,
+    borderRadius: 8,
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  buttonText: {
+    color: '#FFF',
+    fontSize: 16,
+  },
+  clearButton: {
+    backgroundColor: '#aaa',
+    padding: 12,
+    borderRadius: 8,
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  clearButtonText: {
+    color: '#fff',
+  },
+  resultArea: {
+    marginTop: 20,
+    backgroundColor: '#FFF',
+    padding: 20,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  resultText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+});
