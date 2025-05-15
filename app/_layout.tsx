@@ -40,11 +40,11 @@ export default function IMCApp() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Calculador de IMC</Text>
+      <Text style={styles.title}>Calculadora de IMC</Text>
 
       <TextInput
         style={styles.input}
-        placeholder="Peso (kg)"
+        placeholder="Peso (Ex: 89.2)"
         keyboardType="numeric"
         value={peso}
         onChangeText={setPeso}
@@ -52,7 +52,7 @@ export default function IMCApp() {
 
       <TextInput
         style={styles.input}
-        placeholder="Altura (m)"
+        placeholder="Altura (Ex: 1.65)"
         keyboardType="numeric"
         value={altura}
         onChangeText={setAltura}
@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   button: {
-    backgroundColor: '#2E8B57',
+    backgroundColor: '#2E8B97',
     padding: 15,
     borderRadius: 8,
     alignItems: 'center',
